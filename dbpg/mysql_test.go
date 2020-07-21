@@ -1,10 +1,10 @@
 package dbpg_test
 
-// db_mysql "github.com/ydbt/devtool/database"
+// db_mysql "github.com/ydbt/devtool/v1/database"
 import (
 	"testing"
-	"github.com/ydbt/devtool/dbpg"
-	logger "github.com/ydbt/devtool/logger"
+	"github.com/ydbt/devtool/v1/dbpg"
+	logger "github.com/ydbt/devtool/v1/logger"
 )
 
 var g_lg *logger.LoggerFake

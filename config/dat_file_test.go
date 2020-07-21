@@ -3,7 +3,7 @@ package config_test
 import (
 	"testing"
 
-	"github.com/ydbt/devtool/config"
+	"github.com/ydbt/devtool/v1/config"
 )
 
 func TestProjectCfgYaml(t *testing.T) {

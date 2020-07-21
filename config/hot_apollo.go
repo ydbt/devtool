@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ydbt/devtool/usetool"
+	"github.com/ydbt/devtool/v1/usetool"
 	"gopkg.in/yaml.v2"
 
 	agolloV "github.com/zouyx/agollo/v3"

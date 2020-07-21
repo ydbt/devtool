@@ -1,8 +1,8 @@
 package kafkaclient_test
 
 import (
-	. "github.com/ydbt/devtool/kafkaclient"
-	logger "github.com/ydbt/devtool/logger"
+	. "github.com/ydbt/devtool/v1/kafkaclient"
+	logger "github.com/ydbt/devtool/v1/logger"
 	"testing"
 	"time"
 )

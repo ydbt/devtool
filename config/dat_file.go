@@ -3,9 +3,9 @@ package config
 import (
 	"encoding/json"
 
-	"github.com/ydbt/devtool/dbpg"
-	"github.com/ydbt/devtool/logger"
-	"github.com/ydbt/devtool/redisclient"
+	"github.com/ydbt/devtool/v1/dbpg"
+	"github.com/ydbt/devtool/v1/logger"
+	"github.com/ydbt/devtool/v1/redisclient"
 
 	"gopkg.in/yaml.v2"
 )

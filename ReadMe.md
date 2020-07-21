@@ -1,5 +1,5 @@
 # go 常用第三方包接口封装
-require github.com/ydbt/devtool/v1 v1.0.0
+require github.com/ydbt/devtool/v1/v1 v1.0.0
 ## 测试方案
 ### 持续测试
 ### 压力测试

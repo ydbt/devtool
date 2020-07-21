@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"os"
 	"os/signal"
-	logger "github.com/ydbt/devtool/logger"
+	logger "github.com/ydbt/devtool/v1/logger"
 	"sync"
 	"time"
 

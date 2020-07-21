@@ -3,7 +3,7 @@ package usetool_test
 import (
 	"fmt"
 	"testing"
-	usetool "github.com/ydbt/devtool/usetool"
+	usetool "github.com/ydbt/devtool/v1/usetool"
 )
 
 func TestCachedListContent(t *testing.T) {
