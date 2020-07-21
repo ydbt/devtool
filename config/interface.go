@@ -8,12 +8,6 @@ type HotLoadI interface {
 	UpdateCfg(cfg interface{})
 }
 
-// SubscribeCfg
-// 配置管理者，分发热加载配置
-type SubscribeCfg interface {
-	Regist(interface{}, *HotLoadI)
-}
-
 // LoadCfgI
 // 配置管理者
 type CfgerI interface {
@@ -23,4 +17,6 @@ type CfgerI interface {
 	Config() *ProjectCfg
 	// 定时获取配置信息
 	TimerPollLoadCfg(psi usetool.ProcessSignalI)
+	// 配置管理者，分发热加载配置
+	Regist(interface{})
 }
