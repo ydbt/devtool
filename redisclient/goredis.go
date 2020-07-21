@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"time"
-	"gitlab.qn.com/ydbt/logger"
+	"github.com/ydbt/devtool/logger"
 
 	"github.com/go-redis/redis/v8"
 )

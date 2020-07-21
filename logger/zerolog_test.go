@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 	"testing"
-	"gitlab.qn.com/ydbt/logger"
+	"github.com/ydbt/devtool/logger"
 )
 
 // 回滚日志文件测试

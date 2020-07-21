@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	logger "gitlab.qn.com/ydbt/logger"
+	logger "github.com/ydbt/devtool/logger"
 
 	_ "github.com/go-sql-driver/mysql"
 )

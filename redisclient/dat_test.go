@@ -2,7 +2,7 @@ package redisclient_test
 
 import (
 	"testing"
-	"gitlab.qn.com/ydbt/redisclient"
+	"github.com/ydbt/devtool/redisclient"
 )
 
 func TestRedisCfgInit(t *testing.T) {

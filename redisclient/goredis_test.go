@@ -4,8 +4,8 @@ import (
 	"testing"
 	"time"
 
-	"gitlab.qn.com/ydbt/logger"
-	"gitlab.qn.com/ydbt/redisclient"
+	"github.com/ydbt/devtool/logger"
+	"github.com/ydbt/devtool/redisclient"
 )
 
 var g_tc *redisclient.RedisClient

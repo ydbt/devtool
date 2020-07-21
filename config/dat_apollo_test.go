@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.qn.com/ydbt/config"
+	"github.com/ydbt/devtool/config"
 )
 
 func TestApolloString(t *testing.T) {

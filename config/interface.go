@@ -1,6 +1,6 @@
 package config
 
-import "gitlab.qn.com/ydbt/usetool"
+import "github.com/ydbt/devtool/usetool"
 
 // HotLoadI
 // 需要热加载配置的订阅制接口，转换为自己的配置对象

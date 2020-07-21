@@ -1,0 +1,29 @@
+mysql:
+  host: svc_mysql
+  port: 3306
+  user: ucds
+  password: ucds
+  database: sdadmin
+  charset: utf8
+kafka:
+  brokers: ["kafka001:9092","kafka002:9092","kafka003:9092"]
+  bufsize: 100
+  apiversion: "0.8.2.2"
+log:
+  path: ./log/msdcrd.log
+  level: trace
+  maxsize: 10
+  maxbackup: 10
+  maxlive: 200
+  compress: true
+redis:
+  addrs: ["redis01","redis02","redis03"]
+  password: ""
+  database: 0
+services:
+  -
+    host: 192.168.1.2
+    port: 10081
+  -
+    host: 192.168.1.3
+    port: 10082

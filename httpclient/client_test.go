@@ -2,7 +2,7 @@ package httpclient_test
 
 import (
 	"testing"
-	"gitlab.qn.com/ydbt/httpclient"
+	"github.com/ydbt/devtool/httpclient"
 )
 
 func TestHttpGet(t *testing.T) {

@@ -4,9 +4,9 @@ import (
 	"os"
 	"time"
 
-	"gitlab.qn.com/ydbt/config"
-	"gitlab.qn.com/ydbt/logger"
-	"gitlab.qn.com/ydbt/usetool"
+	"github.com/ydbt/devtool/config"
+	"github.com/ydbt/devtool/logger"
+	"github.com/ydbt/devtool/usetool"
 )
 
 func Example_HotLoadFile() {

@@ -4,7 +4,7 @@ import (
 	"os"
 	"strings"
 	"testing"
-	"gitlab.qn.com/ydbt/logger"
+	"github.com/ydbt/devtool/logger"
 )
 
 //

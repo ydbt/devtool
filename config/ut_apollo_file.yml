@@ -1,0 +1,7 @@
+appid: sd-apg
+cluster: default
+namespaces:
+  -
+    static
+ip: http://10.130.41.13:8080/
+secret: ae3fd443000f451fa3ef4b4d9698df08

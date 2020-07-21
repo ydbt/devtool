@@ -5,16 +5,16 @@ import (
 	"testing"
 	"time"
 
-	"gitlab.qn.com/ydbt/config"
-	"gitlab.qn.com/ydbt/logger"
-	"gitlab.qn.com/ydbt/usetool"
+	"github.com/ydbt/devtool/config"
+	"github.com/ydbt/devtool/logger"
+	"github.com/ydbt/devtool/usetool"
 )
 
 // TestHotLoadJson
 // 启动测试通过修改tmp_ut.yml观察日志输出界别或则数据策略
 func TestHotApolloLoadJson(t *testing.T) {
 	psr := usetool.NewProcessSignaler()
-	acr := config.NewApolloCfger("tmp_apollo_ut.yml", "yml", 10)
+	acr := config.NewApolloCfger("ut_apollo_file.yml", "yml", 10)
 	cfg, err := acr.LoadConfig()
 	if err != nil || cfg == nil {
 		t.Error(err)

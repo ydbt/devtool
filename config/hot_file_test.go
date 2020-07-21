@@ -5,16 +5,16 @@ import (
 	"testing"
 	"time"
 
-	"gitlab.qn.com/ydbt/config"
-	"gitlab.qn.com/ydbt/logger"
-	"gitlab.qn.com/ydbt/usetool"
+	"github.com/ydbt/devtool/config"
+	"github.com/ydbt/devtool/logger"
+	"github.com/ydbt/devtool/usetool"
 )
 
 // TestHotLoadJson
 // 启动测试通过修改tmp_ut.yml观察日志输出界别或则数据策略
 func TestHotFileLoadJson(t *testing.T) {
 	psr := usetool.NewProcessSignaler()
-	fcr := config.NewFileCfger("tmp_ut.yml", "yml", 1)
+	fcr := config.NewFileCfger("ut_file_test.yml", "yml", 1)
 	cfg, err := fcr.LoadConfig()
 	if err != nil || cfg == nil {
 		t.Error(err)
