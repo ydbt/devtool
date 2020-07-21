@@ -2,7 +2,7 @@ package logger_test
 
 import (
 	"testing"
-	"github.com/ydbt/devtool/v1/logger"
+	"github.com/ydbt/devtool/v3/logger"
 )
 
 func TestLogCfgInit(t *testing.T) {

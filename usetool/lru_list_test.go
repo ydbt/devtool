@@ -2,7 +2,7 @@ package usetool_test
 
 import (
 	"testing"
-	usetool "github.com/ydbt/devtool/v1/usetool"
+	usetool "github.com/ydbt/devtool/v3/usetool"
 )
 
 // 缓存快表

@@ -1,4 +1,4 @@
-module github.com/ydbt/devtool/v1
+module github.com/ydbt/devtool/v3
 
 go 1.14
 

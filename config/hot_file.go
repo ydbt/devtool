@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ydbt/devtool/v1/usetool"
+	"github.com/ydbt/devtool/v3/usetool"
 )
 
 // 配置热加载

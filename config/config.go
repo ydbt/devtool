@@ -3,9 +3,9 @@ package config
 import (
 	"fmt"
 
-	"github.com/ydbt/devtool/v1/dbpg"
-	"github.com/ydbt/devtool/v1/logger"
-	"github.com/ydbt/devtool/v1/redisclient"
+	"github.com/ydbt/devtool/v3/dbpg"
+	"github.com/ydbt/devtool/v3/logger"
+	"github.com/ydbt/devtool/v3/redisclient"
 )
 
 func NewCfger(cfgFile, cfgType, cfgSuffix string, interval int) CfgerI {
