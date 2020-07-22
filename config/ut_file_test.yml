@@ -5,7 +5,7 @@ mysql:
   password: ucds
   database: sdadmin
   charset: utf8
-kafka:
+kafkaproducer:
   brokers: ["kafka001:9092","kafka002:9092","kafka003:9092"]
   bufsize: 100
   apiversion: "0.8.2.2"

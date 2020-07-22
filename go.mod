@@ -3,6 +3,7 @@ module github.com/ydbt/devtool/v3
 go 1.14
 
 require (
+	github.com/Shopify/sarama v1.26.4
 	github.com/go-delve/delve v1.4.1 // indirect
 	github.com/go-redis/redis/v8 v8.0.0-beta.6
 	github.com/go-sql-driver/mysql v1.5.0

@@ -65,6 +65,10 @@ func (acr *ApolloCfger) LoadConfig() (*ProjectCfg, error) {
 	return acr.cfgInfo, nil
 }
 
+func (acr *ApolloCfger) GoTimerPollLoadCfg(psi usetool.ProcessSignalI) {
+	go acr.TimerPollLoadCfg(psi)
+}
+
 func (acr *ApolloCfger) TimerPollLoadCfg(psi usetool.ProcessSignalI) {
 	timerSignal := time.NewTimer(time.Second * time.Duration(acr.pollInterval))
 	interruptSignal := psi.TopicOSSignal(os.Interrupt)
