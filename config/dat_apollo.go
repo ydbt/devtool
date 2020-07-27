@@ -7,11 +7,11 @@ import (
 )
 
 type ApolloCfg struct {
-	AppID      string   `json:"appid",yaml:"appid"`
-	Cluster    string   `json:"cluster",yaml:"cluster"`
-	Namespaces []string `json:"namespaces",yaml:"namespaces"`
-	IP         string   `json:"ip",yaml:"ip"`
-	Secret     string   `json:"secret",yaml:"secret"`
+	AppID      string   `json:"appid" yaml:"appid"`
+	Cluster    string   `json:"cluster" yaml:"cluster"`
+	Namespaces []string `json:"namespaces" yaml:"namespaces"`
+	IP         string   `json:"ip" yaml:"ip"`
+	Secret     string   `json:"secret" yaml:"secret"`
 }
 
 /* --------------------------------    -------------------------------- */

@@ -24,7 +24,7 @@ func init() {
 
 const gc_strProducerJson = "{\"service_config\":{\"brokers\":[\"kafka01:9092\",\"kafka02:9092\",\"kafka03:9092\"],\"apiversion\":\"2.5.0\"},\"custom_config\":{\"buffersize\":3}}"
 
-func TestProducer(t *testing.T) {
+func Test01ProducerJson(t *testing.T) {
 	cfgProducer, err := kafkaclient.Json2KafkaProducerCfg(gc_strProducerJson)
 	if err != nil {
 		t.Error(err)
@@ -46,10 +46,65 @@ func TestProducer(t *testing.T) {
 	psr.WaitSignalProcess(os.Interrupt)
 }
 
-const gc_strConsumerJson = "{\"service_config\":{\"brokers\":[\"kafka01:9092\",\"kafka02:9092\",\"kafka03:9092\"],\"apiversion\":\"2.5.0\"},\"custom_config\":{\"buffersize\":128,\"retryinterval\":2000},\"groupid\":\"ut-go-active-01\",\"topics\":[\"ut-go-client-test\"],\"partitions\":[0],\"goto_offset\":-2}"
+const gc_strConsumerJson = "{\"service_config\":{\"brokers\":[\"kafka01:9092\",\"kafka02:9092\",\"kafka03:9092\"],\"apiversion\":\"2.5.0\"},\"custom_config\":{\"buffersize\":128,\"retryinterval\":2000},\"groupid\":\"ut-go-active-json\",\"topics\":[\"ut-go-client-test\"],\"partitions\":[0],\"goto_offset\":-1}"
 
-func TestConsumer(t *testing.T) {
+func Test01ConsumerJson(t *testing.T) {
 	cfg, err := kafkaclient.Json2KafkaConsumerCfg(gc_strConsumerJson)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	psr := usetool.NewProcessSignaler()
+	consumer := kafkaclient.NewKafkaConsumer(cfg, pLog)
+	consumer.GoTimerPullMsg(psr)
+	time.Sleep(time.Second)
+	msg := consumer.PullMessage(gc_strTopicName)
+	t.Log(msg)
+	time.Sleep(time.Second)
+	psr.WaitSignalProcess(os.Interrupt)
+}
+
+const gc_strProducerYaml = `service_config:
+  brokers: ["kafka01:9092","kafka02:9092","kafka03:9092"]
+  apiversion: 2.4.0
+custom_config:
+  buffersize: 300`
+
+func Test02ProducerYaml(t *testing.T) {
+	cfgProducer, err := kafkaclient.Yaml2KafkaProducerCfg(gc_strProducerYaml)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	producer := kafkaclient.NewKafkaProducer(cfgProducer, pLog)
+	psr := usetool.NewProcessSignaler()
+	producer.GoTimerPushMsg(psr)
+	time.Sleep(time.Second)
+	var objMsg0 = KafkaProducerMessage{
+		TopicName: gc_strTopicName,
+		Data:      []byte("hello world!")}
+	producer.PushMessage(&objMsg0)
+	var objMsg1 = KafkaProducerMessage{
+		TopicName: gc_strTopicName,
+		Data:      []byte("你好！")}
+	producer.PushMessage(&objMsg1)
+	time.Sleep(time.Second)
+	psr.WaitSignalProcess(os.Interrupt)
+}
+
+const gc_strConsumerYaml = `service_config:
+  brokers: ["kafka01:9092","kafka02:9092","kafka03:9092"]
+  apiversion: 2.4.0
+custom_config:
+  buffersize: 128
+  retryinterval: 2000
+  groupid: ut-go-active-yaml
+  topics: ["ut-go-client-test"]
+  partitions: [0]
+  goto_offset: -2`
+
+func Test02ConsumerYaml(t *testing.T) {
+	cfg, err := kafkaclient.Yaml2KafkaConsumerCfg(gc_strConsumerYaml)
 	if err != nil {
 		t.Error(err)
 		return

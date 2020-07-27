@@ -9,15 +9,15 @@ import (
 // RedisCfg
 // Addrs:["127.0.0.1:7000",...]
 type RedisCfg struct {
-	Addrs        []string `json:"addrs",yaml:"addrs"`
-	User         string   `json:"user",yaml:"user"`
-	Password     string   `json:"password",yaml:"password"`
-	Database     int      `json:"database",yaml:"database"`
-	MaxRetry     int      `json:"maxretry",yaml:"maxretry"`
-	PoolSize     int      `json:"poolsize",yaml:"poolsize"`
-	MinIdleConns int      `json:"minidleconns",yaml:"minidleconns"`
-	PoolTimeout  int      `json:"pooltimeout",yaml:"pooltimeout"`
-	IdleTimeout  int      `json:"idletimeout",yaml:"idletimeout"`
+	Addrs        []string `json:"addrs" yaml:"addrs"`
+	User         string   `json:"user" yaml:"user"`
+	Password     string   `json:"password" yaml:"password"`
+	Database     int      `json:"database" yaml:"database"`
+	MaxRetry     int      `json:"maxretry" yaml:"maxretry"`
+	PoolSize     int      `json:"poolsize" yaml:"poolsize"`
+	MinIdleConns int      `json:"minidleconns" yaml:"minidleconns"`
+	PoolTimeout  int      `json:"pooltimeout" yaml:"pooltimeout"`
+	IdleTimeout  int      `json:"idletimeout" yaml:"idletimeout"`
 }
 
 func newRedisCfg() *RedisCfg {

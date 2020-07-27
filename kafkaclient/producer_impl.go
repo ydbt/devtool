@@ -36,14 +36,14 @@ func NewKafkaProducer(cfgProducer *KafkaProducerConfig, lgi logger.LogI) *KafkaP
 		// 版本解析失败使用默认版本
 		//		pKC.pConfig.Version = sarama.V2_5_0_0
 		kfk.pConfig.Version = sarama.MaxVersion
-		kfk.pLog.Warnf("\"InitConfigByJson\":\"[producer] parse kafka version failed\",\"except\":\"%v\"", err)
+		kfk.pLog.Warnf("[producer] parse kafka version failed, exception:%v", err)
 	}
 	kfk.pConfig.Producer.Partitioner = sarama.NewRandomPartitioner
 	kfk.pConfig.Producer.Return.Successes = true
 	kfk.pConfig.Producer.Return.Errors = true
 	if kfk.producer, err = sarama.NewAsyncProducer(cfgProducer.ServiceConfig.BrokerList, kfk.pConfig); err != nil {
-		kfk.pLog.Warnf("\"InitConfigByJson\":\"[producer] NewAsyncProducer failed\",\"except\":\"%v\"", err)
-		return kfk
+		kfk.pLog.Warnf("[producer] NewAsyncProducer failed, exception:%v, cfg:%v", err, cfgProducer)
+		return nil
 	}
 	kfk.iMaxBufferSize = cfgProducer.CustomConfig.BufferSize
 	return kfk
@@ -68,15 +68,15 @@ func (pKC *KafkaProducer) TimerPushMsg(psi usetool.ProcessSignalI) {
 		case objMsg := <-pKC.bufferMessage:
 			pKC.producer.Input() <- &sarama.ProducerMessage{Topic: objMsg.TopicName, Key: sarama.ByteEncoder(objMsg.Key), Value: sarama.ByteEncoder(objMsg.Data)}
 		case <-interruptSignal:
-			pKC.pLog.Infof("\"ProducerPush\":\"[producer] receive kill singal\"")
+			pKC.pLog.Infof("receive kill singal")
 			return
 		case <-killSignal:
-			pKC.pLog.Infof("\"ProducerPush\":\"[producer] receive kill singal\"")
+			pKC.pLog.Infof("receive kill singal")
 			return
 		case <-pKC.producer.Successes():
 			continue
 		case errPush = <-pKC.producer.Errors():
-			pKC.pLog.Errorf("\"ProducerPush\":\"[producer] failed\",\"except\":\"%v\"", errPush)
+			pKC.pLog.Errorf("[producer] exception:%v", errPush)
 		}
 	}
 }

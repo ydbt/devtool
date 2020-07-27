@@ -9,24 +9,24 @@ import (
 )
 
 type KafkaConsumerCustomConfig struct {
-	BufferSize    int `json:"buffersize",yaml:"buffersize"`
-	IntervalRetry int `json:"retryinterval",yaml:"retryinterval"`
+	BufferSize    int `json:"buffersize" yaml:"buffersize"`
+	IntervalRetry int `json:"retryinterval" yaml:"retryinterval"`
 }
 
 // KafkaProducerConfig kafka服务配置+消费者配置
 type KafkaConsumerConfig struct {
-	ServiceConfig KafkaConfig               `json:"service_config",yaml:"service_config"`
-	CustomConfig  KafkaConsumerCustomConfig `json:"custom_config",yaml:"custom_config"`
-	GroupId       string                    `json:"groupid",yaml:"groupid"`
-	Topics        []string                  `json:"topics",yaml:"topics"`
-	GotoOffset    int64                     `json:"goto_offset",yaml:"goto_offset"`
+	ServiceConfig KafkaConfig               `json:"service_config" yaml:"service_config"`
+	CustomConfig  KafkaConsumerCustomConfig `json:"custom_config" yaml:"custom_config"`
+	GroupId       string                    `json:"groupid" yaml:"groupid"`
+	Topics        []string                  `json:"topics" yaml:"topics"`
+	GotoOffset    int64                     `json:"goto_offset" yaml:"goto_offset"`
 }
 
 func newKafkaConsumer() *KafkaConsumerConfig {
 	return &KafkaConsumerConfig{
 		ServiceConfig: KafkaConfig{
 			BrokerList: []string{"127.0.0.1:9092", "127.0.0.1:9093", "127.0.0.1:9094"},
-			ApiVersion: "2.5.0.0",
+			ApiVersion: "2.5.0",
 		},
 		CustomConfig: KafkaConsumerCustomConfig{
 			BufferSize:    128,

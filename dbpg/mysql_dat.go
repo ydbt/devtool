@@ -11,15 +11,15 @@ import (
 // MaxIdleConn 最大的空闲的数据库连接数
 // MaxLifeTime 单位为秒
 type MysqlCfg struct {
-	Host        string `json:"host",yaml:"host"`
-	Port        int    `json:"port",yaml:"port"`
-	User        string `json:"user",yaml:"user"`
-	Password    string `json:"password",yaml:"pasword"`
-	Database    string `json:"database",yaml:"database"`
-	Charset     string `json:"charset",yaml"charset"`
-	MaxOpenConn int    `json:"maxopenconn",yaml:"maxopenconn"`
-	MaxIdleConn int    `json:"maxidleconn",yaml:"maxidleconn"`
-	MaxLifeTime int    `json:"maxlifetime",yaml:"maxlifetime"`
+	Host        string `json:"host" yaml:"host"`
+	Port        int    `json:"port" yaml:"port"`
+	User        string `json:"user" yaml:"user"`
+	Password    string `json:"password" yaml:"pasword"`
+	Database    string `json:"database" yaml:"database"`
+	Charset     string `json:"charset" yaml"charset"`
+	MaxOpenConn int    `json:"maxopenconn" yaml:"maxopenconn"`
+	MaxIdleConn int    `json:"maxidleconn" yaml:"maxidleconn"`
+	MaxLifeTime int    `json:"maxlifetime" yaml:"maxlifetime"`
 }
 
 // newMysqlCfg

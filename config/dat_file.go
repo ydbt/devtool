@@ -12,16 +12,16 @@ import (
 )
 
 type ServiceCfg struct {
-	Host string `json:"host",yaml:"host"`
-	Port int    `json:"port",yaml:"port"`
+	Host string `json:"host" yaml:"host"`
+	Port int    `json:"port" yaml:"port"`
 }
 
 type ProjectCfg struct {
-	Services      []ServiceCfg                    `json:"services",yaml:"services"`
-	Mysql         dbpg.MysqlCfg                   `json:"mysql",yaml:"mysql"`
-	Redis         redisclient.RedisCfg            `json:"redis",yaml:"redis"`
-	Log           logger.LogCfg                   `json:"log",yaml:"log"`
-	KafkaProducer kafkaclient.KafkaProducerConfig `json:"kafkaproducer",yaml:"kafkaproducer"`
+	Services      []ServiceCfg                    `json:"services" yaml:"services"`
+	Mysql         dbpg.MysqlCfg                   `json:"mysql" yaml:"mysql"`
+	Redis         redisclient.RedisCfg            `json:"redis" yaml:"redis"`
+	Log           logger.LogCfg                   `json:"log" yaml:"log"`
+	KafkaProducer kafkaclient.KafkaProducerConfig `json:"kafkaproducer" yaml:"kafkaproducer"`
 }
 
 func NewProjectCfg() *ProjectCfg {

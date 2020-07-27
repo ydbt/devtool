@@ -13,14 +13,14 @@ type FuncStrategy func() map[string]interface{}
 
 // LogCfg 日志回滚文件配置信息
 type LogCfg struct {
-	AppName      string `json:"appname",yaml"appname"`
-	Path         string `json:"path",yaml:"path"`
-	Level        string `json:"level",yaml:"level"`
-	MaxSize      int    `json:"maxsize",yaml:"maxsize"`
-	MaxBackup    int    `json:"maxbackup",yaml:"maxbackup"`
-	MaxLive      int    `json:"maxlive",yaml:"maxlive"`
-	IsCompress   bool   `json:"compress",yaml:"compress"`
-	Strategy     int    `json:"strategy",yaml:"strategy"`
+	AppName      string `json:"appname" yaml"appname"`
+	Path         string `json:"path" yaml:"path"`
+	Level        string `json:"level" yaml:"level"`
+	MaxSize      int    `json:"maxsize" yaml:"maxsize"`
+	MaxBackup    int    `json:"maxbackup" yaml:"maxbackup"`
+	MaxLive      int    `json:"maxlive" yaml:"maxlive"`
+	IsCompress   bool   `json:"compress" yaml:"compress"`
+	Strategy     int    `json:"strategy" yaml:"strategy"`
 	funcStrategy FuncStrategy
 }
 
