@@ -7,10 +7,10 @@ import (
 	"os"
 	"time"
 
-	logger "github.com/ydbt/devtool/v3/logger"
-	"github.com/ydbt/devtool/v3/usetool"
-
 	sarama "github.com/Shopify/sarama"
+
+	"github.com/ydbt/devtool/v3/logger"
+	"github.com/ydbt/devtool/v3/usetool"
 )
 
 /*  消费者接口实现 */

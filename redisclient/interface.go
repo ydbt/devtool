@@ -47,6 +47,8 @@ type ListI interface {
 	Lrange(key string, first, last int64) ([]string, error)
 	// Ltrim 保留[first,last]闭区间数据，其他数据异常
 	Ltrim(key string, first, last int64) error
+	// Brpop 获取列表数据，最大等待时长为timeout
+	Brpop(timeout time.Duration,keys ...string) ([]string,error)
 }
 
 // HashI 哈希数据结构接口

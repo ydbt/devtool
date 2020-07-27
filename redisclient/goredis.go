@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"time"
+
 	"github.com/ydbt/devtool/v3/logger"
 
 	"github.com/go-redis/redis/v8"
@@ -140,6 +141,12 @@ func (rc *RedisClient) Ltrim(key string, first, last int64) error {
 		return errors.New(s)
 	}
 	return err
+}
+
+// Brpop
+func (rc *RedisClient) Brpop(timeout time.Duration, keys ...string) ([]string, error) {
+	vals, err := rc.client.BRPop(rc.ctx, timeout, keys...).Result()
+	return vals, err
 }
 
 /* ------------------ reids hash哈希结构操作 ------------------ */
