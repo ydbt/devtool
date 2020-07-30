@@ -128,6 +128,12 @@ func (rc *RedisClient) Lpush(key string, values ...interface{}) (int64, error) {
 	return totalSize, err
 }
 
+// Rpush
+func (rc *RedisClient) Rpush(key string, values ...interface{}) (int64, error) {
+	totalSize, err := rc.client.RPush(rc.ctx, key, values...).Result()
+	return totalSize, err
+}
+
 // Lrange
 func (rc *RedisClient) Lrange(key string, first, last int64) ([]string, error) {
 	sectionData, err := rc.client.LRange(rc.ctx, key, first, last).Result()
@@ -150,6 +156,12 @@ func (rc *RedisClient) Brpop(timeout time.Duration, keys ...string) ([]string, e
 }
 
 /* ------------------ reids hash哈希结构操作 ------------------ */
+// Hset
+func (rc *RedisClient) Hset(key string, values ...interface{}) error {
+	_, err := rc.client.HSet(rc.ctx, key, values...).Result()
+	return err
+}
+
 // Hmget
 func (rc *RedisClient) Hmget(key string, fields ...string) ([]interface{}, error) {
 	vals, err := rc.client.HMGet(rc.ctx, key, fields...).Result()
@@ -157,15 +169,8 @@ func (rc *RedisClient) Hmget(key string, fields ...string) ([]interface{}, error
 }
 
 // Hmset
-func (rc *RedisClient) Hmset(key string, kvs map[string]interface{}) error {
-	field := make([]interface{}, len(kvs)*2)
-	i := 0
-	for k, v := range kvs {
-		field[i] = k
-		field[i+1] = v
-		i = i + 2
-	}
-	_, err := rc.client.HMSet(rc.ctx, key, field).Result()
+func (rc *RedisClient) Hmset(key string, values ...interface{}) error {
+	_, err := rc.client.HMSet(rc.ctx, key, values...).Result()
 	return err
 }
 func (rc *RedisClient) Hincrby(key string, field string, i int64) (int64, error) {
@@ -223,6 +228,10 @@ func (rc *RedisClient) ScriptKill() error {
 func (rc *RedisClient) Ping() (string, error) {
 	s, err := rc.client.Ping(rc.ctx).Result()
 	return s, err
+}
+func (rc *RedisClient) Do(args ...interface{}) (interface{}, error) {
+	tv, err := rc.client.Do(rc.ctx, args...).Result()
+	return tv, err
 }
 
 // RedisClient

@@ -43,27 +43,26 @@ type SetI interface {
 type ListI interface {
 	// Lpush 左边(低位)插入数据
 	Lpush(key string, values ...interface{}) (int64, error)
+	Rpush(key string, values ...interface{}) (int64, error)
 	// Lrange 获取闭区间[first,last]数据
 	Lrange(key string, first, last int64) ([]string, error)
 	// Ltrim 保留[first,last]闭区间数据，其他数据异常
 	Ltrim(key string, first, last int64) error
 	// Brpop 获取列表数据，最大等待时长为timeout
-	Brpop(timeout time.Duration,keys ...string) ([]string,error)
+	Brpop(timeout time.Duration, keys ...string) ([]string, error)
 }
 
 // HashI 哈希数据结构接口
 type HashI interface {
+	Hset(key string, values ...interface{}) error
 	Hmget(key string, fields ...string) ([]interface{}, error)
-	Hmset(key string, kvs map[string]interface{}) error
+	Hmset(key string, values ...interface{}) error
 	Hincrby(key string, field string, i int64) (int64, error)
+	Pipeline()
 }
 
 // TransactionsI 事务接口
 type TransactionsI interface {
-}
-
-// PipelineI 管道接口
-type PipelineI interface {
 }
 
 // ScriptI 脚本接口
@@ -81,6 +80,7 @@ type ScriptI interface {
 
 type CommandI interface {
 	Ping() (string, error)
+	Do(args ...interface{}) (interface{}, error)
 }
 
 type RedisClientI interface {
@@ -90,7 +90,18 @@ type RedisClientI interface {
 	ListI
 	HashI
 	TransactionsI
-	PipelineI
 	ScriptI
 	CommandI
 }
+
+//type PipelineI interface {
+//	KeyI
+//	StringI
+//	SetI
+//	ListI
+//	HashI
+//	TransactionsI
+//	ScriptI
+//	CommandI
+//}
+//
