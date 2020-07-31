@@ -50,6 +50,12 @@ type ListI interface {
 	Ltrim(key string, first, last int64) error
 	// Brpop 获取列表数据，最大等待时长为timeout
 	Brpop(timeout time.Duration, keys ...string) ([]string, error)
+	// Blpop 获取列表数据，最大等待时长为timeout
+	Blpop(timeout time.Duration, keys ...string) ([]string, error)
+	// Lpop
+	Lpop(key string) (string, error)
+	// Rpop
+	Rpop(key string) (string, error)
 }
 
 // HashI 哈希数据结构接口
@@ -58,7 +64,7 @@ type HashI interface {
 	Hmget(key string, fields ...string) ([]interface{}, error)
 	Hmset(key string, values ...interface{}) error
 	Hincrby(key string, field string, i int64) (int64, error)
-	Pipeline()
+	//	Pipeline()
 }
 
 // TransactionsI 事务接口

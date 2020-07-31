@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/ydbt/devtool/v3/usetool"
@@ -15,21 +14,11 @@ import (
 /* ------------------- 配置文件 ------------------- */
 // NewFileCfger
 // cfgFile:配置文件；cfgType:配置文件类型；interval:热加载间隔
-func NewFileCfger(cfgFile, cfgSuffix string, interval int) *FileCfger {
+func NewFileCfger(parsei ProjectConfigI, interval int) *FileCfger {
 	fcr := &FileCfger{
 		pollInterval: interval,
-		cfgFile:      cfgFile,
-		cfgSuffix:    cfgSuffix,
-		cfgInfo:      NewProjectCfg(),
-		subscribers:  make(map[string]distributeCfg),
-	}
-	if cfgSuffix == "" {
-		index := strings.LastIndex(cfgFile, ".")
-		if index == -1 {
-			return nil
-		} else {
-			fcr.cfgSuffix = cfgFile[index+1:]
-		}
+		cfgFile:      parsei.CfgFile(),
+		parsei:       parsei,
 	}
 	fcr.LoadConfig()
 	return fcr
@@ -38,8 +27,8 @@ func NewFileCfger(cfgFile, cfgSuffix string, interval int) *FileCfger {
 // Regist
 // 顺序初始化并未加锁
 // 此处使用的具体实例类，并未使用接口
-func (fcr *FileCfger) Regist(ti interface{}) {
-	regist_subscribers(ti, fcr.subscribers)
+func (fcr *FileCfger) Regist(suber DynamicLoadCfg) {
+	fcr.subscribers = append(fcr.subscribers, suber)
 }
 
 // TimerPollLoadCfg
@@ -58,13 +47,13 @@ func (fcr *FileCfger) TimerPollLoadCfg(psi usetool.ProcessSignalI) {
 			return
 		case <-timerSignal.C:
 			timerSignal.Reset(time.Second * time.Duration(fcr.pollInterval))
-			cfg, err := fcr.LoadConfig()
-			if err != nil || cfg == nil {
+			err := fcr.LoadConfig()
+			if err != nil {
 				fmt.Println(err)
 				continue
 			}
 			for _, v := range fcr.subscribers {
-				v.funcSpecialCfg(cfg, v.hli)
+				v.FuncHotLoad.UpdateCfg(v.GetCfg(fcr.parsei.Config()))
 			}
 		}
 	}
@@ -72,26 +61,21 @@ func (fcr *FileCfger) TimerPollLoadCfg(psi usetool.ProcessSignalI) {
 
 // LoadCfgFile
 // 根据指定的文件类型加载配置文件
-func (fcr *FileCfger) LoadConfig() (*ProjectCfg, error) {
+func (fcr *FileCfger) LoadConfig() error {
 	var err error
 	cfgByte, err := ioutil.ReadFile(fcr.cfgFile)
 	if err != nil {
 		fmt.Println(err)
-		return nil, err
+		return err
 	}
-	switch fcr.cfgSuffix {
-	case "js", "json":
-		err = Json2ProjectCfg(string(cfgByte), fcr.cfgInfo)
-	case "yaml", "yml":
-		err = Yaml2ProjectCfg(string(cfgByte), fcr.cfgInfo)
-	}
-	return fcr.cfgInfo, err
+	err = fcr.parsei.Unmarshal(cfgByte)
+	return err
 }
 
 // Config
 // 获取已经缓存的配置信息
-func (fcr *FileCfger) Config() *ProjectCfg {
-	return fcr.cfgInfo
+func (fcr *FileCfger) Config() interface{} {
+	return fcr.parsei.Config()
 }
 
 // FileCfger
@@ -99,12 +83,6 @@ func (fcr *FileCfger) Config() *ProjectCfg {
 type FileCfger struct {
 	pollInterval int
 	cfgFile      string
-	cfgSuffix    string
-	cfgInfo      *ProjectCfg
-	subscribers  map[string]distributeCfg
-}
-
-type distributeCfg struct {
-	hli            HotLoadI
-	funcSpecialCfg func(cfg *ProjectCfg, hli HotLoadI)
+	parsei       ProjectConfigI
+	subscribers  []DynamicLoadCfg
 }

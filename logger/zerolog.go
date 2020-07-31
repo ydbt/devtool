@@ -191,11 +191,15 @@ func (pLog *Logger) SetStrategy(strategy int) {
 // HotLoadI
 // 日志配置热加载
 func (pLog *Logger) UpdateCfg(cfg interface{}) {
-	if logCfg, ok := cfg.(LogCfg); ok {
-		pLog.SetLevel(logCfg.Level)
-		pLog.SetStrategy(logCfg.Strategy)
-	} else {
-		pLog.Warnf("assert LogCfg failed")
+	switch v := cfg.(type) {
+	case LogCfg:
+		pLog.SetLevel(v.Level)
+		pLog.SetStrategy(v.Strategy)
+	case *LogCfg:
+		pLog.SetLevel(v.Level)
+		pLog.SetStrategy(v.Strategy)
+	default:
+		pLog.Warnf("HotLoad assert LogCfg type failed")
 	}
 }
 

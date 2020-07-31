@@ -17,22 +17,18 @@ import (
 )
 
 /* ------------------- Apollo 配置 ------------------- */ // TODO
-func NewApolloCfger(cfgFile, cfgSuffix string, interval int) *ApolloCfger {
+func NewApolloCfger(parsei ProjectConfigI, interval int) *ApolloCfger {
 	acr := &ApolloCfger{
 		pollInterval: interval,
-		cfgFile:      cfgFile,
-		cfgSuffix:    cfgSuffix,
-		cfgInfo:      NewProjectCfg(),
+		cfgFile:      parsei.CfgFile(),
 		cfgApollo:    new(ApolloCfg),
-		subscribers:  make(map[string]distributeCfg),
+		parsei:       parsei,
 	}
-	if cfgSuffix == "" {
-		index := strings.LastIndex(cfgFile, ".")
-		if index == -1 {
-			return nil
-		} else {
-			acr.cfgSuffix = cfgFile[index+1:]
-		}
+	index := strings.LastIndex(acr.cfgFile, ".")
+	if index == -1 {
+		return nil
+	} else {
+		acr.cfgSuffix = acr.cfgFile[index+1:]
 	}
 	acr.LoadConfig()
 	return acr
@@ -40,29 +36,29 @@ func NewApolloCfger(cfgFile, cfgSuffix string, interval int) *ApolloCfger {
 
 // LoadCfgFile
 // 根据指定的文件类型加载配置文件
-func (acr *ApolloCfger) LoadConfig() (*ProjectCfg, error) {
+func (acr *ApolloCfger) LoadConfig() error {
 	var err error
 	cfgByte, err := ioutil.ReadFile(acr.cfgFile)
 	if err != nil {
 		fmt.Println(err)
-		return nil, err
+		return err
 	}
 	switch acr.cfgSuffix {
 	case "js", "json":
 		err := json.Unmarshal([]byte(cfgByte), acr.cfgApollo)
 		if err != nil {
-			return nil, err
+			return err
 		}
 	case "yaml", "yml":
 		err := yaml.Unmarshal([]byte(cfgByte), acr.cfgApollo)
 		if err != nil {
-			return nil, err
+			return err
 		}
 	}
 	fmt.Println("read file:", acr.cfgApollo)
 	ymlCfg := acr.pullConfig()
-	Yaml2ProjectCfg(ymlCfg, acr.cfgInfo)
-	return acr.cfgInfo, nil
+	acr.parsei.Unmarshal(ymlCfg)
+	return nil
 }
 
 func (acr *ApolloCfger) GoTimerPollLoadCfg(psi usetool.ProcessSignalI) {
@@ -83,19 +79,19 @@ func (acr *ApolloCfger) TimerPollLoadCfg(psi usetool.ProcessSignalI) {
 			return
 		case <-timerSignal.C:
 			timerSignal.Reset(time.Second * time.Duration(acr.pollInterval))
-			_, err := acr.LoadConfig()
+			err := acr.LoadConfig()
 			if err != nil {
 				fmt.Println(err)
 				continue
 			}
 			for _, v := range acr.subscribers {
-				v.funcSpecialCfg(acr.cfgInfo, v.hli)
+				v.FuncHotLoad.UpdateCfg(v.GetCfg(acr.parsei.Config()))
 			}
 		}
 	}
 }
 
-func (acr *ApolloCfger) pullConfig() string {
+func (acr *ApolloCfger) pullConfig() []byte {
 	fmt.Println("pullConfig beg")
 	mapCfg := make(map[string]string)
 	for _, spcName := range acr.cfgApollo.Namespaces {
@@ -118,20 +114,20 @@ func (acr *ApolloCfger) pullConfig() string {
 		})
 	}
 	ymlCfg := Apollo2Yaml(mapCfg)
-	fmt.Println(ymlCfg)
+	//	fmt.Println(ymlCfg)
 	fmt.Println("pullConfig end")
-	return ymlCfg
+	return []byte(ymlCfg)
 }
 
-func (acr *ApolloCfger) Config() *ProjectCfg {
-	return acr.cfgInfo
+func (acr *ApolloCfger) Config() interface{} {
+	return acr.parsei.Config()
 }
 
 // Regist
 // 顺序初始化并未加锁
 // 此处使用的具体实例类，并未使用接口
-func (acr *ApolloCfger) Regist(ti interface{}) {
-	regist_subscribers(ti, acr.subscribers)
+func (acr *ApolloCfger) Regist(suber DynamicLoadCfg) {
+	acr.subscribers = append(acr.subscribers, suber)
 }
 
 type ApolloCfger struct {
@@ -139,6 +135,6 @@ type ApolloCfger struct {
 	cfgFile      string
 	cfgSuffix    string
 	cfgApollo    *ApolloCfg
-	cfgInfo      *ProjectCfg
-	subscribers  map[string]distributeCfg
+	parsei       ProjectConfigI
+	subscribers  []DynamicLoadCfg
 }

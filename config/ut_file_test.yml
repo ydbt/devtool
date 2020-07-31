@@ -11,11 +11,12 @@ kafkaproducer:
   apiversion: "0.8.2.2"
 log:
   path: ./log/msdcrd.log
-  level: trace
+  level: debug
   maxsize: 10
   maxbackup: 10
   maxlive: 200
   compress: true
+  strategy: 3
 redis:
   addrs: ["redis01","redis02","redis03"]
   password: ""

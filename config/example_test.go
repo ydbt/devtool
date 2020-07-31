@@ -1,6 +1,7 @@
 package config_test
 
 import (
+	"fmt"
 	"os"
 	"time"
 
@@ -10,18 +11,46 @@ import (
 )
 
 func Example_HotLoadFile() {
-	psr := usetool.NewProcessSignaler()                // 进程信号管理
-	fcr := config.NewFileCfger("tmp_ut.yml", "yml", 1) // 配置加载方式
-	cfg, err := fcr.LoadConfig()                       // 加载配置文件
-	if err != nil || cfg == nil {
+	cfg := &ymlProjectCfg{
+		pro:  new(ProjectCfg),
+		file: "ut_file_test.yml",
+	}
+	cfg.pro = new(ProjectCfg)
+	psr := usetool.NewProcessSignaler()
+	fcr := config.NewFileCfger(cfg, 1)
+	err := fcr.LoadConfig()
+	if err != nil {
+		fmt.Printf("%v\n", err)
 		return
 	}
-	lg := logger.NewLogger(&cfg.Log)  // 日志热加载
-	fcr.Regist(lg)                    // 日志实例
+	cfgInfo := fcr.Config()
+	funcCfgLog := func(cfgPro interface{}) interface{} {
+		var cfgLog *logger.LogCfg
+		switch cfgPro := cfgInfo.(type) {
+		case ProjectCfg:
+			cfgLog = &cfgPro.Log
+		case *ProjectCfg:
+			cfgLog = &cfgPro.Log
+		default:
+			cfgLog = nil
+		}
+		return cfgLog
+	}
+	var cfgLog *logger.LogCfg
+	var ok bool
+	if cfgLog, ok = funcCfgLog(cfgInfo).(*logger.LogCfg); !ok {
+		fmt.Printf("ProjectCfg fetch logger.Logcfg failed, %v\n", cfgInfo)
+		return
+	}
+	lg := logger.NewLogger(cfgLog) // 日志热加载
+	fcr.Regist(config.DynamicLoadCfg{
+		FuncHotLoad: lg,
+		GetCfg:      funcCfgLog,
+	}) // 日志实例
 	go fcr.TimerPollLoadCfg(psr)      // 热加载轮询
 	lg.Debugf("********************") // 观测日志变化
 	lg.Infof("###################")
-	for i := 0; i < 20; i++ {
+	for i := 0; i < 10; i++ {
 		lg.Infof("=======================")
 		time.Sleep(time.Second * 2)
 	}

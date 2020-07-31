@@ -155,6 +155,24 @@ func (rc *RedisClient) Brpop(timeout time.Duration, keys ...string) ([]string, e
 	return vals, err
 }
 
+// Blpop
+func (rc *RedisClient) Blpop(timeout time.Duration, keys ...string) ([]string, error) {
+	vals, err := rc.client.BLPop(rc.ctx, timeout, keys...).Result()
+	return vals, err
+}
+
+// Lpop
+func (rc *RedisClient) Lpop(key string) (string, error) {
+	val, err := rc.client.LPop(rc.ctx, key).Result()
+	return val, err
+}
+
+// Rpop
+func (rc *RedisClient) Rpop(key string) (string, error) {
+	val, err := rc.client.RPop(rc.ctx, key).Result()
+	return val, err
+}
+
 /* ------------------ reids hash哈希结构操作 ------------------ */
 // Hset
 func (rc *RedisClient) Hset(key string, values ...interface{}) error {
